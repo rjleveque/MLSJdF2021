@@ -1,5 +1,5 @@
 
-# ML-Tsunami
+# ML Models for Tsunami Prediction
 
 ## Requirements
 
