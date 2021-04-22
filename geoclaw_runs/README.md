@@ -4,6 +4,14 @@ Sample code to use GeoClaw for creating seafloor deformations and
 running tsunami simulations to capture the gauge data used in training
 and testing the ML algorithms.
 
+The GeoClaw code itself must be obtained and installed as described at
+http://www.clawpack.org/installing.html.   
+
+The results used in the paper were obtained using Clawpack version 5.7.0. 
+Later versions should work too.  See http://www.clawpack.org/releases.html
+
+## Organization:
+
 ### Subdirectory make_topo 
 
 Contains a Jupyter notebook illustrating how to make a dtopo (seafloor
@@ -31,11 +39,6 @@ the desired plots:
  - setrun.py
  - setplot.py
  
-The GeoClaw code itself must be obtained and installed as described at
-http://www.clawpack.org/installing.html.   
-
-The results used in the paper were obtained using Clawpack version 5.7.0. 
-Later versions should work too.  See http://www.clawpack.org/releases.html
 
 ### Subdirectory topo
 
