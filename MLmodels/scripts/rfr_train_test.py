@@ -61,8 +61,8 @@ if __name__ == "__main__":
     index_train = np.loadtxt(os.path.join(path,'sjdf_train_index.txt')).astype(int)
     index_test = np.loadtxt(os.path.join(path,'sjdf_test_index.txt')).astype(int)
     
-    tsteps = [181, 361] # 30 minutes
-    threshold = 0.1
+    tsteps = [181, 361] # 30 and 60 minutes
+    threshold = 0.1 # meters
     
     sc = False # Scale features
     
@@ -107,11 +107,11 @@ if __name__ == "__main__":
     rmodel = RandomForestRegressor(n_estimators=100)
 
     ## Gauge 901
-    pred_901, trp_901, target_901, evs_901, scalers_901, models_901 = tsr.train_test(feat702, g901max, runnos,\
+    pred_901, trp_901, target_901, evs_901, scalers_901, models_901 = tsr.train_test(feat702, g901max,\
                                                                                      index_train, index_test,\
                                                                                     sc,'r', rmodel,True)
     ## Gauge 911
-    pred_911, trp_911, target_911, evs_911, scalers_911, models_911 = tsr.train_test(feat702, g911max, runnos,\
+    pred_911, trp_911, target_911, evs_911, scalers_911, models_911 = tsr.train_test(feat702, g911max,\
                                                                                      index_train, index_test,\
                                                                                   sc, 'r', rmodel, True)
     
