@@ -9,6 +9,7 @@ import os
 import importlib
 import time
 
+import random
 import pandas as pd
 
 from sklearn.preprocessing import StandardScaler
@@ -24,6 +25,7 @@ from tsfresh.feature_extraction import ComprehensiveFCParameters, settings
 
 if __name__ == "__main__":
 
+    random.seed(10000)
     np.random.seed(10000)
     
     # Timing the code

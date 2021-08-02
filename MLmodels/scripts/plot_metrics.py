@@ -46,7 +46,7 @@ def read_obs_test(model, win, gauge):
 
 from sklearn.metrics import explained_variance_score
 
-model_list = ['SVRs', 'SVRs_raw', 'RFR', 'DAE', 'VAE']
+model_list = ['SVRs', 'SVRs_raw', 'DAE', 'VAE']
 gauge_list = ['901', '911']
 win_list = ['30m', '60m']
 
@@ -67,7 +67,7 @@ for win in win_list:
 plt.close('all')
 
 mrkr_dict = {}
-mrkr_list = ['o', 'v', '^', 'o', 's', 'p']
+mrkr_list = ['o', 'v', '^', 's', 'p']
 
 color_dict = {}
 color_list = plt.rcParams['axes.prop_cycle'].by_key()['color']

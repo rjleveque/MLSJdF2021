@@ -114,8 +114,8 @@ def plot_obsvpred(pred_train, obs_train,
         legends = [[ line0,   line1],
                    ['train', 'test']]
         
-        ax.set_xlabel('observed')
-        ax.set_ylabel('predicted')
+        ax.set_xlabel('observed $\eta_{max}$ ($m$)')
+        ax.set_ylabel('predicted $\eta_{max}$ ($m$)')
         ax.grid(True, linestyle=':')
         ax.set_aspect('equal')
 

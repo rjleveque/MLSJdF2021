@@ -6,7 +6,15 @@ import torch.optim as optim
 import torch.nn.functional as F
 # from torch.autograd import Variable
 
+import random
 import copy
+
+np.random.seed(0)
+random.seed(0)
+torch.random.manual_seed(0)
+
+torch.backends.cudnn.deterministic = True
+torch.backends.cudnn.benchmark = False
 
 # 1D autoencoder
 class Conv1DVAE(nn.Module):
@@ -69,7 +77,7 @@ class Conv1DVAE(nn.Module):
         sig = x[:, 1, :]
         #get dimensions here, output mu and sigma
         return mu, sig
-    # def reparameterize(self, mu: Variable, logvar: Variable) -> Variable: 
+
     def reparameterize(self, mu, logvar): 
         """The reparameterization is key to minimizing posteriors/priors
 
@@ -94,34 +102,15 @@ class Conv1DVAE(nn.Module):
 
         During training random sample from the learned ZDIMS-dimensional
         normal distribution; during inference its mean.
-    """
+        """
+        
+        torch.backends.cudnn.deterministic = True
+        torch.backends.cudnn.benchmark = False
+
         std = torch.exp(0.5 * logvar)
         eps = torch.randn_like(std)
         return eps * std + mu
-        # if self.training:
-        #     # multiply log variance with 0.5, then in-place exponent
-        #     # yielding the standard deviation
-        #     std = logvar.mul(0.5).exp_()  # type: Variable
-        #     # - std.data is the [inner dims,ZDIMS] tensor that is wrapped by std
-        #     # - so eps is [inner dims,ZDIMS] with all elements drawn from a mean 0
-        #     #   and stddev 1 normal distribution that is number of inner feature samples
-        #     #   of random ZDIMS-float vectors
-        #     eps = Variable(std.data.new(std.size()).normal_())
-        #     # - sample from a normal distribution with standard
-        #     #   deviation = std and mean = mu by multiplying mean 0
-        #     #   stddev 1 sample with desired std and mu, see
-        #     #   https://stats.stackexchange.com/a/16338
-        #     # - so we have #inner dims sets (the batch) of random ZDIMS-float
-        #     #   vectors sampled from normal distribution with learned
-        #     #   std and mu for the current input
-        #     return eps.mul(std).add_(mu)
-        # else:
-        #     # During inference, we simply spit out the mean of the
-        #     # learned distribution for the current input.  We could
-        #     # use a random sample from the distribution, but mu of
-        #     # course has the highest probability.
-        #     return mu
-    # def decoder(self, x: Variable) -> Variable:
+
     def decoder(self, x):
         x = self.fcnback(x)
         x = x.view([x.shape[0], 512, 1])
@@ -135,8 +124,6 @@ class Conv1DVAE(nn.Module):
         x = self.ht(self.t_conv8(x))
         return x
 
-
-    # def forward(self, x: Variable)->(Variable, Variable, Variable):
     def forward(self, x):
         mu, logvar = self.encoder(x)
         z = self.reparameterize(mu, logvar)
@@ -273,7 +260,12 @@ class VarAutoEncoder():
 
         # set random seed
         init_weight_seed = self.init_weight_seed
+        np.random.seed(init_weight_seed)
+        random.seed(init_weight_seed)
         torch.random.manual_seed(init_weight_seed)
+
+        torch.backends.cudnn.deterministic = True
+        torch.backends.cudnn.benchmark = False
 
         device = self.device
 
@@ -572,6 +564,15 @@ class VarAutoEncoder():
         model = torch.load(load_fname,
                            map_location=torch.device(device))
 
+        # set random seed
+        init_weight_seed = self.init_weight_seed
+        np.random.seed(init_weight_seed)
+        random.seed(init_weight_seed)
+        torch.random.manual_seed(init_weight_seed)
+        
+        # increment seed
+        self.init_weight_seed += 1
+
         model.eval()
 
         return model
@@ -608,6 +609,12 @@ class VarAutoEncoder():
         numpy array format
 
         """
+
+        # set random seed
+        init_weight_seed = self.init_weight_seed
+        np.random.seed(init_weight_seed)
+        random.seed(init_weight_seed)
+        torch.random.manual_seed(init_weight_seed)
 
         # load data and data dimensions
         batch_size = self.batch_size
